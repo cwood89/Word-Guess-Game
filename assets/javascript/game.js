@@ -19,8 +19,8 @@ var display = [];
 // fill array with underscores 
 var start = function() {
     for (var i = 0; i < wordUp.length; i++) {
-        display[i] = "_ ";
-        outputArr = display[i] + " ";
+        display[i] = "_";
+        outputArr = display.join(" ");
     };
     
     currentWordText.textContent = outputArr;
@@ -42,37 +42,20 @@ if (guess > 0) {
         guessRemainText.textContent = "Guesses Remaining: " + guess;
         letterGuessText.textContent = "Letters Guessed: " + wrongArr; 
         start();
-        console.log(display);
+    
         for ( var i = 0; i < wordUp.length; i++) {
             if (wordUp[i] === letter) {
-                outputArr[i] = letter;
+                display[i] = letter;
+                outputArr= display.join(" ");
+                console.log(outputArr);
             };
         };
 
-        // if (
-        // wrongArr.push(letter + " ");
-        // guess--;
-        // };
-        
+        if (letter !== wordUp[i]) {
+            wrongArr.push(letter + " ");
+            guess--;
+        }; 
 
-    
-    //              wrongArr.push(letter);
-    //             guess--;
-    //           };
-    // //         };
-    // //         console.log(wrongArr);
-    // //     };
-    
-
-    // // // if (guessArray === emptyArr) {
-    // // //         wins++;
-    // // //      };
-    
-
-    
-        
-         
-        
-    //     // hintText.textContent = "Hint: " + hint;
+    // hintText.textContent = "Hint: " + hint;
     };
 };
