@@ -5,6 +5,7 @@ var display = [];
 var wrongArr = [];
 var wins = 0;
 var guess = 7;
+
 // display variables
 var startText = document.getElementById("start-text");
 var currentWordText = document.getElementById("currentword-text");
@@ -14,174 +15,61 @@ var letterGuessText = document.getElementById("lettterguess-text");
 
 
 
-function buildpuzzle() {
-    startText = "";
-    for (var i = 0;i < wordChoice.length; i++) {
+function buildPuzzle() {
+    wordChoice = words[Math.floor(Math.random() * words.length)];
+    console.log(wordChoice);
+    for (var i = 0; i < wordChoice.length; i++) {
         display.push("_");
     };
-   
+    currentWordText.textContent = display.join(" ");
 };
 
-function startGame() {
-    pickWord();
-    buildpuzzle();
-    updateView();
-};
 
-function pickWord() {
-    wordChoice = words[Math.floor(Math.random() * words.length)];
-};
+function newGame() {
+    display = [];
+    wrongArr = [];
+    guess = 7;
+    buildPuzzle();
+}
 
 function tryGuess(key) {
     var letterInWord = false;
-    for( i = 0; i < wordChoice.length; i ++) {
-         if ( wordChoice[i] === key ) {
+    for (i = 0; i < wordChoice.length; i++) {
+        if (wordChoice[i] === key) {
             letterInWord = true;
+            display[i] = key;
         };
     };
 
     if (letterInWord) {
-        for (var c = 0; c < wordChoice.length; c++) {
-            if (wordchoice[c] === key) {
-                display[i] = key;
-            };
-        };
+        currentWordText.textContent = display.join(" ");
     } else {
         wrongArr.push(key + " ");
+        guess--;
     };
 };
 
-function updateView() {
-    document.getElementById("currentword-text").textContent = display.join(" ");
-    startText.innerHTML = "";
-    
-};
 
 function checkWin() {
     if (!display.includes("_")) {
         wins++;
-        alert("You Win"); 
+        alert("You Win");
+        newGame();
     };
-    startGame();
+    if (guess === 0) {
+        alert("You Lose")
+        newGame();
+    }
 };
 
-document.onkeypress = function(event) {
+document.onkeypress = function (event) {
     var key = event.key;
     winsText = wins;
+    startText.innerHTML = "";
     guessRemainText.textContent = "Guesses Remaining: " + guess;
     letterGuessText.textContent = "Letters Guessed: " + wrongArr;
-    updateView();
     tryGuess(key);
     checkWin();
     console.log(key);
-    guess--;
 };
-startGame();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// var words= {
-// up: ["kobe", "quarters", "points", "defense", "center", "timeout"],
-// hint: [],
-// };
-// var wins= 0;
-// var guess= 7;
-// 
-// 
-// var hintText = document.getElementById("hint-text");
-// var wordUp = words.up[Math.floor(Math.random() * words.up.length)];
-// var guessArr = wordUp.split(" ");
-// var outputArr =[];
-// var wrongArr =[];
-// var display = [];
-// var keyPress = [];
-// // fill array with underscores 
-// function underscore() {
-//     for (var i = 0; i < wordUp.length; i++) {
-//         display[i] = "_";
-//         outputArr = display.join(" ");
-//     };
-    
-//     currentWordText.textContent = outputArr;
-// };
-
-// var newGame = function() {
-// guess= 7;
-// outputArr =[];
-// wrongArr = [];
-// display =[];
-// };
-
-// if (guess > 0) {
-    
-//     document.onkeypress = function(event) {
-//         var letter = event.key;
-//         
-//         winsText.textContent = "Wins: " + wins;
-//          
-//         keyPress = letter;
-//         console.log(keyPress);
-//        underscore(); 
-//        guess--
-    
-//         if (wordUp[i] === keyPress) {
-//                 display[i] = keyPress;
-//                 outputArr.join(display[i]);
-//                 console.log(display);
-//             };
-//             currentWordText.textContent = outputArr;
-        
-//         if (keyPress !== wordUp[i]) {
-//                 wrongArr.join(keyPress + " ");
-//                ;
-//             }; 
-            
-         
-//      };
-
-//     // hintText.textContent = "Hint: " + hint;
-    
-// }
+newGame();
